@@ -68,18 +68,21 @@ var preview = function(){
     }
   }
   context.putImageData(imageData,0,0);
-  if (iteration <30000){
+  if (iteration <20000){
+    if( iteration % 100 == 0 ) {
+      var img = canvas.toDataURL();
+      var data = img.replace(/^data:image\/\w+;base64,/, "");
+      var buf = new Buffer(data, 'base64');
+      fs.writeFile('images/image'+index+'.png', buf);
+      index++;
+    }
     iterate();
   } else {
     var img = canvas.toDataURL();
     var data = img.replace(/^data:image\/\w+;base64,/, "");
     var buf = new Buffer(data, 'base64');
-    fs.writeFile('image1.png', buf);
-    // fs.writeFile('logo.png', imageData, 'binary', function(err){
-    //     if (err) throw err
-    //     console.log('File saved.')
-    // });
+    fs.writeFile('images/image'+index+'.png', buf);
   }
-
 }
+
 train();
